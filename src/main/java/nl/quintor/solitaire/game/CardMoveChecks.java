@@ -1,12 +1,15 @@
 package nl.quintor.solitaire.game;
 
 import nl.quintor.solitaire.game.moves.Help;
+import nl.quintor.solitaire.game.moves.Move;
 import nl.quintor.solitaire.game.moves.ex.MoveException;
 import nl.quintor.solitaire.models.card.Card;
 import nl.quintor.solitaire.models.card.Rank;
 import nl.quintor.solitaire.models.card.Suit;
 import nl.quintor.solitaire.models.deck.Deck;
 import nl.quintor.solitaire.models.deck.DeckType;
+
+import java.util.Arrays;
 
 /**
  * Library class for card move legality checks. The class is not instantiable, all constructors are private and all methods are
@@ -31,6 +34,10 @@ public class CardMoveChecks {
      */
     public static void checkPlayerInput(String[] input) throws MoveException{
         // TODO: Write implementation
+        // Find out a way to compare string array to array input.
+        if(){
+            throw new MoveException("Invalid Move syntax. 'Z' is not a valid source location.\nSee H̲elp for instructions.");
+        }
     }
 
     /**
@@ -46,6 +53,21 @@ public class CardMoveChecks {
      */
     public static void deckLevelChecks(Deck sourceDeck, int sourceCardIndex, Deck destinationDeck) throws MoveException {
         // TODO: Write implementation
+        if(sourceDeck == destinationDeck){
+            throw new MoveException("Move source and destination can't be the same");
+        }
+        else if(sourceDeck.isEmpty()){
+            throw new MoveException("You can't move a card from an empty deck");
+        }
+        else if(destinationDeck.getDeckType() == DeckType.STOCK){
+            throw new MoveException("You can't move cards to the stock");
+        }
+        else if(sourceDeck.getInvisibleCards() != 0){
+            throw new MoveException("You can't move an invisible card");
+        }
+        else if(((sourceDeck.size() - sourceCardIndex) > 1) && (destinationDeck.getDeckType() == DeckType.STACK)){
+            throw new MoveException("You can't move more than 1 card at a time to a Stack Pile");
+        }
     }
 
     /**
@@ -60,6 +82,23 @@ public class CardMoveChecks {
      */
     public static void cardLevelChecks(Deck targetDeck, Card cardToAdd) throws MoveException {
         // TODO: Write implementation
+        if(targetDeck.getDeckType() != DeckType.COLUMN && targetDeck.getDeckType() != DeckType.STACK){
+            throw new MoveException("Target deck is neither Stack nor Column.");
+        }
+        else if(targetDeck.isEmpty() && cardToAdd.getRank() != Rank.ACE && targetDeck.getDeckType() == DeckType.STACK){
+            throw new MoveException("An Ace has to be the first card of a Stack Pile");
+        }
+        //Find out how to find a way to enforce rank increase.
+        else if(targetDeck.getDeckType() == DeckType.STACK){
+            throw new MoveException("Stack Piles hold same-suit cards of increasing Rank from Ace to King");
+        }
+        //Find out how to enforce same-suit cards.
+        else if(targetDeck.getDeckType() == DeckType.STACK){
+            throw new MoveException("Stack Piles can only contain same-suit cards");
+        }
+        else if(targetDeck.isEmpty() && cardToAdd.getRank() != Rank.KING && targetDeck.getDeckType() == DeckType.COLUMN){
+            throw new MoveException("A King has to be the first card of a Column");
+        }
     }
 
     // Helper methods
