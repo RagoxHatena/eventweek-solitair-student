@@ -35,9 +35,9 @@ public class CardMoveChecks {
     public static void checkPlayerInput(String[] input) throws MoveException{
         // TODO: Write implementation
         // Find out a way to compare string array to array input.
-        if(){
+        /*if(){
             throw new MoveException("Invalid Move syntax. 'Z' is not a valid source location.\nSee H̲elp for instructions.");
-        }
+        }*/
     }
 
     /**
@@ -88,14 +88,6 @@ public class CardMoveChecks {
         else if(targetDeck.isEmpty() && cardToAdd.getRank() != Rank.ACE && targetDeck.getDeckType() == DeckType.STACK){
             throw new MoveException("An Ace has to be the first card of a Stack Pile");
         }
-        //Find out how to find a way to enforce rank increase.
-        else if(targetDeck.getDeckType() == DeckType.STACK){
-            throw new MoveException("Stack Piles hold same-suit cards of increasing Rank from Ace to King");
-        }
-        //Find out how to enforce same-suit cards.
-        else if(targetDeck.getDeckType() == DeckType.STACK){
-            throw new MoveException("Stack Piles can only contain same-suit cards");
-        }
         else if(targetDeck.isEmpty() && cardToAdd.getRank() != Rank.KING && targetDeck.getDeckType() == DeckType.COLUMN){
             throw new MoveException("A King has to be the first card of a Column");
         }
@@ -112,6 +104,12 @@ public class CardMoveChecks {
      */
     static void checkStackMove(Card targetCard, Card cardToAdd) throws MoveException {
         // TODO: Write implementation
+        if(cardToAdd.getRank().ordinal() <= targetCard.getRank().ordinal()){
+            throw new MoveException("Stack Piles hold same-suit cards of increasing Rank from Ace to King");
+        }
+        else if(cardToAdd.getSuit() != targetCard.getSuit()){
+            throw new MoveException("Stack Piles can only contain same-suit cards");
+        }
     }
 
     /**
@@ -123,6 +121,20 @@ public class CardMoveChecks {
      */
     static void checkColumnMove(Card targetCard, Card cardToAdd) throws MoveException {
         /// TODO: Write implementation
+        if(cardToAdd.getSuit() == Suit.HEARTS || cardToAdd.getSuit() == Suit.DIAMONDS){
+            if(targetCard.getSuit() == Suit.HEARTS || targetCard.getSuit() == Suit.DIAMONDS){
+                throw new MoveException("Column cards have te alternate colors (red and black");
+            }
+        }
+        else if(cardToAdd.getSuit() == Suit.SPADES || cardToAdd.getSuit() == Suit.CLUBS){
+            if(targetCard.getSuit() == Suit.SPADES || targetCard.getSuit() == Suit.CLUBS){
+                throw new MoveException("Column cards have te alternate colors (red and black");
+            }
+        }
+        if(cardToAdd.getRank().ordinal() >= targetCard.getRank().ordinal() && cardToAdd.getSuit() == targetCard.getSuit()){
+            throw new MoveException("Columns hold alternating-color cards of decreasing rank from King to Two");
+        }
+
     }
 
     /**
@@ -134,6 +146,16 @@ public class CardMoveChecks {
      */
     static boolean opposingColor(Card card1, Card card2){
         // TODO: Write implementation
+        if(card1.getSuit() == Suit.HEARTS || card1.getSuit() == Suit.DIAMONDS){
+            if (card2.getSuit() == Suit.HEARTS || card2.getSuit() == Suit.SPADES){
+                return false;
+            }
+        }
+        if(card1.getSuit() == Suit.CLUBS || card1.getSuit() == Suit.SPADES){
+            if (card2.getSuit() == Suit.CLUBS || card2.getSuit() == Suit.SPADES){
+                return false;
+            }
+        }
         return true;
     }
 
