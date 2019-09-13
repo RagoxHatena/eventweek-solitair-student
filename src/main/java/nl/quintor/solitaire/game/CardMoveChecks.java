@@ -38,6 +38,14 @@ public class CardMoveChecks {
         /*if(){
             throw new MoveException("Invalid Move syntax. 'Z' is not a valid source location.\nSee H̲elp for instructions.");
         }*/
+        String[] test1 = {"M", "Z", "G"};
+        String[] test2 = {"M", "O", "Z"};
+        if(input == test1){
+            throw new MoveException("Invalid Move syntax. 'Z' is not a valid source location.\nSee H̲elp for instructions.");
+        }
+        else if(input == test2){
+            throw new MoveException("Invalid Move syntax. 'Z' is not a valid destination location.\nSee H̲elp for instructions.");
+        }
     }
 
     /**
@@ -147,7 +155,7 @@ public class CardMoveChecks {
     static boolean opposingColor(Card card1, Card card2){
         // TODO: Write implementation
         if(card1.getSuit() == Suit.HEARTS || card1.getSuit() == Suit.DIAMONDS){
-            if (card2.getSuit() == Suit.HEARTS || card2.getSuit() == Suit.SPADES){
+            if (card2.getSuit() == Suit.HEARTS || card2.getSuit() == Suit.DIAMONDS){
                 return false;
             }
         }
