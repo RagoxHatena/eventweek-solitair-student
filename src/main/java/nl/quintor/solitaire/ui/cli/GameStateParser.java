@@ -69,6 +69,9 @@ class GameStateParser {
      */
     protected static String getCardStringOrNull(Deck deck, int index){
         // TODO: Write implementation
+        if(!deck.isEmpty() && deck.size() > index){
+            return deck.get(index).getSuit().getSymbol() + " " + deck.get(index).getRank().getSymbol();
+        }
         return null;
     }
 
