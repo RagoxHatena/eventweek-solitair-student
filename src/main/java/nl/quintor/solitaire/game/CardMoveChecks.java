@@ -112,11 +112,13 @@ public class CardMoveChecks {
      */
     static void checkStackMove(Card targetCard, Card cardToAdd) throws MoveException {
         // TODO: Write implementation
-        if(cardToAdd.getRank().ordinal() <= targetCard.getRank().ordinal()){
-            throw new MoveException("Stack Piles hold same-suit cards of increasing Rank from Ace to King");
-        }
-        else if(cardToAdd.getSuit() != targetCard.getSuit()){
+        if(cardToAdd.getSuit() != targetCard.getSuit()){
             throw new MoveException("Stack Piles can only contain same-suit cards");
+        }
+        else{
+            if(cardToAdd.getRank().ordinal() <= targetCard.getRank().ordinal()){
+                throw new MoveException("Stack Piles hold same-suit cards of increasing Rank from Ace to King");
+            }
         }
     }
 
